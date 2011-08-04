@@ -17,7 +17,8 @@ setup(
 	author="Christopher H. Casebeer",
 	author_email="",
 	url="",
-	packages=find_packages(exclude='tests'),
+	py_modules=["webpy_helpers", "distribute_setup"],
+	#packages=find_packages(exclude='tests'),
 	install_requires=required_modules
 	)
 
