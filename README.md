@@ -52,9 +52,9 @@ Returning a JSON object as an error page body can make it easier for programmati
 
 Note that machine readable error page bodies *are not* a replacement for returning correct HTTP status codes: You *must* still set the correct status code to indicate via HTTP what error or status occured. 
 
-For example, it would be wrong to say {"error":"You provided bad data"} with a 500 status code, even if the request caused server code to throw an exception. In this case, the error was the client's fault, so a 400 status code would be appropriate. A status code of 500 indicates that the fault lies with the server.
+For example, it would be wrong to say `{"error":"You provided bad data"}` with a 500 status code, even if the request caused server code to throw an exception. In this case, the error was the client's fault, so a 400 status code would be appropriate. A status code of 500 indicates that the fault lies with the server.
 
-Similarly, returning a message {"error":"the server crashed"} with a 404 status code would also be wrong, since an error made by the server should have a 500 status code. 
+Similarly, returning a message `{"error":"the server crashed"}` with a 404 status code would also be wrong, since an error made by the server should have a 500 status code. 
 
 See the [HTTP Status Code Definitions][httpcodes].
 
