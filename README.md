@@ -32,7 +32,7 @@ use:
 
 Note that we're also changing the Content-type header to text/plain, since this is just a plain text message, not an HTML document. 
 
-Using this NotFound class, you could return a JSON error body by setting the Content-type header to applicatin/json and serializing an object to a JSON string. The JsonNotFound class does this for you:
+Using this NotFound class, you could return a JSON error body by setting the Content-type header to application/json and serializing an object to a JSON string. The JsonNotFound class does this for you:
 
     ...
     class FooApi:
