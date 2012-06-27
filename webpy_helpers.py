@@ -17,8 +17,9 @@ class JsonBadRequest(BadRequest):
 					message={"message":"Bad request"},
 					headers={"Content-type":"application/json"}
 				):
+		if isinstance(message, basestring):
+			message = {"message":unicode(message)}
 		BadRequest.__init__(self, json.dumps(message), headers)
-
 
 class NotFound(web.HTTPError):
 	'''Allow customized messages on 404 errors.'''
@@ -31,4 +32,7 @@ class JsonNotFound(NotFound):
 					message={"message":"Not found"},
 					headers={"Content-type":"application/json"}
 				):
+		if isinstance(message, basestring):
+			message = {"message":unicode(message)}
 		NotFound.__init__(self, json.dumps(message), headers)
+

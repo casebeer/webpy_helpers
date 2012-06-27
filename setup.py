@@ -12,7 +12,7 @@ required_modules = [
 
 setup(
 	name="webpy_helpers",
-	version="0.0.1",
+	version="0.0.2",
 	description="",
 	author="Christopher H. Casebeer",
 	author_email="",
