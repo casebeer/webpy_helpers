@@ -12,7 +12,7 @@ try:
 except ImportError:
 	import json
 
-#### Util function and metaclass to conver HTML error classes to JSON
+#### Util function and metaclass to convert HTML error classes to JSON
 
 def _make_json_init(init_f):
 	"""Wrap an error class __init__ function and prep to return JSON, not HTML."""
