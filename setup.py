@@ -13,7 +13,7 @@ Web.py Helpers
 
 setup(
 	name="webpy_helpers",
-	version="0.0.2",
+	version="0.0.3",
 	description="",
 
 	author="Christopher H. Casebeer",
