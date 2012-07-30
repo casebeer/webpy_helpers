@@ -23,7 +23,7 @@ setup(
 	py_modules=["webpy_helpers"],
 	install_requires=required_modules,
 
-	tests_require=["nose"],
+	tests_require=["nose", "paste"],
 	test_suite="nose.collector",
 
 	long_description=readme,
