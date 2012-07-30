@@ -157,6 +157,7 @@ def test():
 	'''Test runner for coverage of all classes.'''
 	print "%d classes to test" % len(list(controllers))
 	for cls in controllers:
+		test.__doc__ = """Testing status %s, controller %s""" % (cls.status, cls.__name__)
 		yield run, cls
 
 def run(cls):
