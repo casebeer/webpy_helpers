@@ -1,4 +1,10 @@
-#### web.py helpers 
+'''
+web.py Custom HTTP Error Response Helpers 
+
+Helper classes extending web.py's HTTPError class to set custom error
+response bodies and headers, including JSON bodies and headers appropriate
+for use in JSON based APIs. 
+'''
 
 import web
 try:
@@ -6,16 +12,7 @@ try:
 except ImportError:
 	import json
 
-#### Util class and function 
-
-class _HTTPError(web.HTTPError):
-	"""Base class for customized error message bodies"""
-	message = None
-	def __init__(self,message=None,headers={"Content-type":"text/html"}):
-		if message == None:
-			message = self.message if self.message else self.status[1]
-		web.HTTPError.__init__(self, " ".join(self.status), headers, message)
-		#print(self, " ".join(self.status), headers, message if message else self.status[1])
+#### Util function and metaclass to conver HTML error classes to JSON
 
 def _make_json_init(init_f):
 	"""Wrap an error class __init__ function and prep to return JSON, not HTML."""
@@ -32,7 +29,7 @@ def _make_json_init(init_f):
 	return __init__
 
 class _JsonHttpErrorMeta(type):
-	'''Metaclass to create error subclass with JSON response body from _HTTPError subclass.'''
+	'''Metaclass to create error subclass with JSON response body from HTTPError subclass.'''
 	def __new__(self, name, bases, dir):
 		overrides = {
 			'__init__': _make_json_init(bases[0].__init__),
@@ -42,32 +39,42 @@ class _JsonHttpErrorMeta(type):
 		overrides.update(dir)
 		return type.__new__(self, name, bases, overrides)
 
+
 #### API
-class BadRequest(_HTTPError):
+
+class HTTPError(web.HTTPError):
+	"""Base class for customized error message bodies"""
+	message = None
+	def __init__(self,message=None,headers={"Content-type":"text/html"}):
+		if message == None:
+			message = self.message if self.message else self.status[1]
+		web.HTTPError.__init__(self, " ".join(self.status), headers, message)
+
+class BadRequest(HTTPError):
 	'''Allow customized messages on 400 errors'''
 	status = "400", "Bad Request"
 class JsonBadRequest(BadRequest):
 	__metaclass__ = _JsonHttpErrorMeta
 
-class Unauthorized(_HTTPError):
+class Unauthorized(HTTPError):
 	'''Allow customized messages on 401 errors'''
 	status = "401", "Unauthorized"
 class JsonUnauthorized(Unauthorized):
 	__metaclass__ = _JsonHttpErrorMeta
 
-class Forbidden(_HTTPError):
+class Forbidden(HTTPError):
 	'''Allow customized messages on 403 errors'''
 	status = "403", "Forbidden"
 class JsonForbidden(Forbidden):
 	__metaclass__ = _JsonHttpErrorMeta
 
-class NotFound(_HTTPError):
+class NotFound(HTTPError):
 	'''Allow customized messages on 404 errors'''
 	status = "404", "Not Found"
 class JsonNotFound(NotFound):
 	__metaclass__ = _JsonHttpErrorMeta
 
-class MethodNotAllowed(_HTTPError):
+class MethodNotAllowed(HTTPError):
 	'''Allow customized messages on 405 errors'''
 	status = "405", "Method Not Allowed"
 class JsonMethodNotAllowed(MethodNotAllowed):
@@ -76,31 +83,31 @@ class JsonMethodNotAllowed(MethodNotAllowed):
 NoMethod = MethodNotAllowed
 JsonNoMethod = JsonMethodNotAllowed
 
-class Gone(_HTTPError):
+class Gone(HTTPError):
 	'''Allow customized messages on 410 errors'''
 	status = "410", "Gone"
 class JsonGone(Gone):
 	__metaclass__ = _JsonHttpErrorMeta
 
-class Conflict(_HTTPError):
+class Conflict(HTTPError):
 	'''Allow customized messages on 409 errors'''
 	status = "409", "Conflict"
 class JsonConflict(Conflict):
 	__metaclass__ = _JsonHttpErrorMeta
 
-class UnsupportedMediaType(_HTTPError):
+class UnsupportedMediaType(HTTPError):
 	'''Allow customized messages on 415 errors'''
 	status = "415", "Unsupported Media Type"
 class JsonUnsupportedMediaType(UnsupportedMediaType):
 	__metaclass__ = _JsonHttpErrorMeta
 
-class RequestedRangeNotSatisfiable(_HTTPError):
+class RequestedRangeNotSatisfiable(HTTPError):
 	'''Allow customized messages on 415 errors'''
 	status = "416", "Requested Range Not Satisfiable"
 class JsonRequestedRangeNotSatisfiable(RequestedRangeNotSatisfiable):
 	__metaclass__ = _JsonHttpErrorMeta
 
-class InternalServerError(_HTTPError):
+class InternalServerError(HTTPError):
 	'''Allow customized messages on 500 errors'''
 	status = "500", "Internal Server Error"
 class JsonInternalServerError(InternalServerError):
